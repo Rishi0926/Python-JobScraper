@@ -6,12 +6,10 @@ import smtplib
 from email.mime.text import MIMEText
 from email.mime.multipart import MIMEMultipart
 from email.mime.application import MIMEApplication
-import schedule
-import time
 
-receiver_email = "your eamil" # enter your email
-sender = "your email"    # enter your email
-password = "your App password"  # Your Gmail App Password
+receiver_email = "your email"  # enter your email
+sender = "your email"          # enter your email
+password = "your App password" # Your Gmail App Password
 
 def generate_pdf():
     class PDF(FPDF):
@@ -57,6 +55,7 @@ def generate_pdf():
     for role, data in jobs.items():
         pdf.chapter_title(role)
         pdf.chapter_body(data)
+
     filename = "daily_job_digest.pdf"
     pdf.output(filename)
     print("✅ PDF generated.")
@@ -89,10 +88,10 @@ def main_task():
     pdf = generate_pdf()
     send_email(pdf)
 
-# TEMP: Run every 1 minute for testing
-schedule.every(1).minutes.do(main_task)
+# -----------------------------
+# RUN ONCE AND STOP
+# -----------------------------
 
-print("🚀 Script started. Waiting for scheduled task every 1 minute...\n")
-while True:
-    schedule.run_pending()
-    time.sleep(1)
+print("🚀 Script started... Running job once.\n")
+main_task()
+print("✅ Job completed. Stopping execution.")
